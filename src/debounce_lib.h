@@ -1,13 +1,15 @@
 #ifndef debounce_lib_h
 #define debounce_lib_h
+#include <Arduino.h>
 
 class debouncer {
     public:
+        debouncer();
         void setDebounce(uint16_t new_debounce);
         void setColdown(uint16_t new_coldown);
         bool tick();
         
-        int16_t setValue(int16_t input_value);
+        bool setValue(int16_t input_value);
         int16_t getValue();
         bool isTrig();
         //bool isHolded();
@@ -25,6 +27,6 @@ class debouncer {
         int16_t _last_value = _value; 
 
         bool _isTrig_flag = false;
-}
+};
 
 #endif

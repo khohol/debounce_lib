@@ -1,5 +1,4 @@
 #include "debounce_lib.h"
-#include <Arduino.h>
 
 
 // КОНСТРУКТОР
@@ -42,12 +41,12 @@ bool debouncer::isTrig() {
         _isTrig_flag = false;
         return true;
     } else return false;
-};
+}
 
 
-int16_t debouncer::setValue(int16_t input_value) {
+bool debouncer::setValue(int16_t input_value) {
     input_value = _value;
-    debouncer::tick();
+    return debouncer::tick();
 }
 
 
