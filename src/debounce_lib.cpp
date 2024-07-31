@@ -45,7 +45,7 @@ bool Debouncer::isTrig() {  // повертає true, якщо була змін
 
 
 bool Debouncer::setValue(int16_t input_value) {     // задаємо значення з певною частотою
-    input_value = _value;
+    _value = input_value;
     return Debouncer::tick();
 }
 
@@ -54,5 +54,7 @@ int16_t Debouncer::getValue() {     // отримання актуальних �
     Debouncer::tick();
     if (_debounced_value == -1) {
         return _value;
-    } else return _debounced_value;
+    } else {
+        return _debounced_value;
+    }
 }

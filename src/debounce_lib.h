@@ -12,7 +12,6 @@ class Debouncer {
         bool setValue(int16_t input_value);         // задаємо значення з певною частотою
         int16_t getValue();                         // отримання актуальних значень
         bool isTrig();                              // повертає true, якщо була зміна значення
-        //bool isHolded();
     private:
         uint16_t _debounce  = 300;
         uint32_t _debounce_timer = 0;
