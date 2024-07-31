@@ -1,32 +1,31 @@
 #include "debounce_lib.h"
-#include <Arduino.h>
 
 
 // КОНСТРУКТОР
-debouncer::debouncer() {
+Debouncer::Debouncer() {
 }
 
 
 // СЕТТЕРИ
-void debouncer::setDebounce(uint16_t new_debounce) {
+void Debouncer::setDebounce(uint16_t new_debounce) {    // задання часу ігнорування дріб'язку значень
     _debounce = new_debounce;
 }
 
-void debouncer::setColdown(uint16_t new_coldown) {
-    _coldown = new_coldown;
+void Debouncer::setCooldown(uint16_t new_coldown) {     // задання часу "перезарядки"
+    _cooldown = new_coldown;
 }
 
 
 // ОБРОБКА
-bool debouncer::tick() {
+bool Debouncer::tick() {        // викликати як можна частіше
     if (_last_value != _value) {
         _debounce_timer = millis();
         _debounce_flag = true;
     }
 
-    if (_debounce_flag && millis() - _debounce_timer >= _debounce && millis() - _coldown_timer >= _coldown) {
+    if (_debounce_flag && millis() - _debounce_timer >= _debounce && millis() - _cooldown_timer >= _cooldown) {
         _debounce_flag = false;
-        _coldown_timer = millis();
+        _cooldown_timer = millis();
         _isTrig_flag = true;
         _debounced_value = _value;
     }
@@ -36,24 +35,26 @@ bool debouncer::tick() {
 }
 
 
-bool debouncer::isTrig() {
-    debouncer::tick();
+bool Debouncer::isTrig() {  // повертає true, якщо була зміна значення
+    Debouncer::tick();
     if (_isTrig_flag) {
         _isTrig_flag = false;
         return true;
     } else return false;
-};
-
-
-int16_t debouncer::setValue(int16_t input_value) {
-    input_value = _value;
-    debouncer::tick();
 }
 
 
-int16_t debouncer::getValue() {
-    debouncer::tick();
+bool Debouncer::setValue(int16_t input_value) {     // задаємо значення з певною частотою
+    _value = input_value;
+    return Debouncer::tick();
+}
+
+
+int16_t Debouncer::getValue() {     // отримання актуальних значень
+    Debouncer::tick();
     if (_debounced_value == -1) {
         return _value;
-    } else return _debounced_value;
+    } else {
+        return _debounced_value;
+    }
 }
